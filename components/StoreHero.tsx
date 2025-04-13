@@ -1,13 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, HelpCircle, MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 
 export default function StoreHero() {
   return (
     <motion.section
-      className="py-16 px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto"
+      className="py-16 px-6 md:px-12 lg:px-12 max-w-[1200px] mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -19,7 +20,7 @@ export default function StoreHero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-[#1d1d1f]">
+          <h1 className="text-[48px] font-semibold text-[#1d1d1f] leading-[1.05]">
             Store.{" "}
             <span className="text-[#6e6e73] font-normal">
               The best way to buy the products you love.
@@ -35,14 +36,20 @@ export default function StoreHero() {
         >
           <div className="flex items-start space-y-6 flex-col">
             <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-[#f5f5f7] flex items-center justify-center mr-3">
-                <HelpCircle className="w-6 h-6 text-[#1d1d1f]" />
+              <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
+                <Image
+                  src="/store/hero/specialist-profile.png"
+                  alt="Apple Specialist"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
-                <h3 className="font-medium text-lg">Need shopping help?</h3>
+                <h3 className="font-medium text-[14px]">Need shopping help?</h3>
                 <Link
                   href="#"
-                  className="text-apple-blue hover:underline flex items-center"
+                  className="text-apple-blue hover:underline flex items-center text-[14px]"
                 >
                   Ask a Specialist <ArrowUpRight className="ml-1 w-3 h-3" />
                 </Link>
@@ -54,10 +61,12 @@ export default function StoreHero() {
                 <MapPin className="w-6 h-6 text-[#1d1d1f]" />
               </div>
               <div>
-                <h3 className="font-medium text-lg">Visit an Apple Store</h3>
+                <h3 className="font-medium text-[14px]">
+                  Visit an Apple Store
+                </h3>
                 <Link
                   href="#"
-                  className="text-apple-blue hover:underline flex items-center"
+                  className="text-apple-blue hover:underline flex items-center text-[14px]"
                 >
                   Find one near you <ArrowUpRight className="ml-1 w-3 h-3" />
                 </Link>

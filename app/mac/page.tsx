@@ -175,7 +175,7 @@ const macComparisonContent = [
     products: [
       {
         id: "macbook-air",
-        image: "/mac/macbook-air-silver.png",
+        image: "/mac/macbook-air.png",
         imageAlt: "MacBook Air 13 and 15 inch",
         colors: (
           <>
@@ -227,7 +227,7 @@ const macComparisonContent = [
       },
       {
         id: "macbook-pro",
-        image: "/mac/macbook-pro-space-gray.png",
+        image: "/mac/macbook-pro.png",
         imageAlt: "MacBook Pro 14 and 16 inch",
         colors: (
           <>
@@ -281,7 +281,7 @@ const macComparisonContent = [
     products: [
       {
         id: "imac",
-        image: "/mac/imac-blue.png",
+        image: "/mac/imac.png",
         imageAlt: "iMac 24-inch",
         colors: (
           <>
@@ -331,7 +331,7 @@ const macComparisonContent = [
       },
       {
         id: "mac-mini",
-        image: "/mac/mac-mini-side.png",
+        image: "/mac/mac-mini.png",
         imageAlt: "Mac mini",
         colors: (
           <>
@@ -371,7 +371,7 @@ const macComparisonContent = [
       },
       {
         id: "mac-studio",
-        image: "/mac/mac-studio-side.png",
+        image: "/mac/mac-studio.png",
         imageAlt: "Mac Studio",
         colors: (
           <>
@@ -411,7 +411,7 @@ const macComparisonContent = [
       },
       {
         id: "mac-pro",
-        image: "/mac/mac-pro-tower.png",
+        image: "/mac/mac-pro.png",
         imageAlt: "Mac Pro",
         colors: (
           <>

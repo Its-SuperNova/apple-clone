@@ -9,6 +9,7 @@ import LatestProducts from "@/components/LatestProducts";
 import HelpServices from "@/components/HelpServices";
 import StoreAdvantages from "@/components/StoreAdvantages";
 import AppleExperience from "@/components/AppleExperience";
+import QuickLinks from "@/components/QuickLink";
 
 export default function Home() {
   // Initialize smooth scroll with useRef and useEffect
@@ -50,6 +51,7 @@ export default function Home() {
       <HelpServices />
       <StoreAdvantages />
       <AppleExperience />
+      <QuickLinks />
     </div>
   );
 }

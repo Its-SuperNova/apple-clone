@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -88,68 +86,69 @@ const latestProducts = [
 export default function LatestProducts() {
   const [showArrows, setShowArrows] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
+  // Check if we can scroll left or right based on current scroll position
   const checkScrollability = useCallback(() => {
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      setCanScrollLeft(scrollContainer.scrollLeft > 0);
-      setCanScrollRight(
-        scrollContainer.scrollLeft <
-          scrollContainer.scrollWidth - scrollContainer.clientWidth
-      );
+      const maxScroll =
+        scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      setCanScrollLeft(scrollPosition > 0);
+      setCanScrollRight(scrollPosition < maxScroll);
     }
-  }, []);
+  }, [scrollPosition]);
 
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      checkScrollability();
-      scrollContainer.addEventListener("scroll", checkScrollability);
-      window.addEventListener("resize", checkScrollability);
-    }
+    checkScrollability();
+    window.addEventListener("resize", checkScrollability);
 
     return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", checkScrollability);
-        window.removeEventListener("resize", checkScrollability);
-      }
+      window.removeEventListener("resize", checkScrollability);
     };
   }, [checkScrollability]);
 
-  const scroll = useCallback((direction: "left" | "right") => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const newPosition = scrollContainerRef.current.scrollLeft;
+      setScrollPosition(newPosition);
+
+      // Update arrow visibility based on new scroll position
+      const maxScroll =
+        scrollContainerRef.current.scrollWidth -
+        scrollContainerRef.current.clientWidth;
+      setCanScrollLeft(newPosition > 0);
+      setCanScrollRight(newPosition < maxScroll);
+    }
+  };
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
       const scrollAmount = 400; // Approximately one card width
-      const newScrollLeft =
-        direction === "left"
-          ? scrollContainer.scrollLeft - scrollAmount
-          : scrollContainer.scrollLeft + scrollAmount;
-
-      scrollContainer.scrollTo({
-        left: newScrollLeft,
-        behavior: "smooth",
-      });
-    }
-  }, []);
-
-  // Handle wheel events for horizontal scrolling with mouse wheel
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    if (e.deltaY !== 0 && scrollContainerRef.current) {
-      e.preventDefault();
       scrollContainerRef.current.scrollBy({
-        left: e.deltaY < 0 ? -100 : 100,
+        left: -scrollAmount,
         behavior: "smooth",
       });
     }
-  }, []);
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 400; // Approximately one card width
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
       {/* Title section - Separate from scrollable area */}
-      <div className="max-w-[1200px] mx-auto px-6">
-        <h2 className="text-[28px] font-semibold mb-4">
+      <div className="max-w-[1200px] mx-auto px-6 mt-16">
+        <h2 className="text-[28px] font-semibold">
           The latest.{" "}
           <span className="text-[#6e6e73] font-normal">
             Take a look at what's new right now.
@@ -168,90 +167,96 @@ export default function LatestProducts() {
         onMouseLeave={() => setShowArrows(false)}
       >
         {/* Left Arrow */}
-        <button
-          className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
-            showArrows && canScrollLeft ? "opacity-80" : "opacity-0"
-          } ${canScrollLeft ? "cursor-pointer" : "cursor-default"}`}
-          onClick={() => scroll("left")}
-          disabled={!canScrollLeft}
-          aria-label="Scroll left"
-        >
-          <ChevronLeft className="w-8 h-8 text-gray-600" />
-        </button>
+        {canScrollLeft && (
+          <button
+            className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
+              showArrows ? "opacity-80" : "opacity-0"
+            }`}
+            onClick={scrollLeft}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-8 h-8 text-gray-600" />
+          </button>
+        )}
 
         {/* Right Arrow */}
-        <button
-          className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
-            showArrows && canScrollRight ? "opacity-80" : "opacity-0"
-          } ${canScrollRight ? "cursor-pointer" : "cursor-default"}`}
-          onClick={() => scroll("right")}
-          disabled={!canScrollRight}
-          aria-label="Scroll right"
-        >
-          <ChevronRight className="w-8 h-8 text-gray-600" />
-        </button>
+        {canScrollRight && (
+          <button
+            className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
+              showArrows ? "opacity-80" : "opacity-0"
+            }`}
+            onClick={scrollRight}
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-8 h-8 text-gray-600" />
+          </button>
+        )}
 
-        {/* Scrollable Container - Using exact same structure as ProductCategories */}
+        {/* Scrollable Container */}
         <div
           ref={scrollContainerRef}
-          className="overflow-x-auto scrollbar-hide w-full smooth-scroll"
+          className="overflow-x-auto scrollbar-hide w-full smooth-scroll pb-8"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
             scrollBehavior: "smooth",
             WebkitOverflowScrolling: "touch",
           }}
-          onWheel={handleWheel}
+          onScroll={handleScroll}
         >
-          <div className="flex pl-[max(1rem,calc((100%-1200px)/2+1rem))] pr-12 space-x-6 min-w-max">
+          <div className="flex pl-[max(1rem,calc((100%-1200px)/2+1rem))] pr-12 min-w-max">
             {latestProducts.map((product, index) => (
               <div
                 key={product.name}
-                className={`${product.bgColor} ${
-                  product.textColor
-                } rounded-3xl overflow-hidden relative flex-shrink-0 w-[400px] h-[500px] ${
-                  product.borderClass || ""
-                }`}
+                className="group p-4 overflow-visible" // Added padding and overflow-visible
               >
-                {/* Product image as background */}
                 <div
-                  className="absolute inset-0 w-full h-full"
-                  style={{
-                    backgroundImage: `url(${product.image})`,
-                    backgroundSize: "contain",
-                    backgroundPosition: "center 60%",
-                    backgroundRepeat: "no-repeat",
-                    zIndex: 1,
-                  }}
-                />
+                  className={`${product.bgColor} ${
+                    product.textColor
+                  } rounded-3xl relative flex-shrink-0 w-[400px] h-[500px] ${
+                    product.borderClass || ""
+                  } transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl cursor-pointer overflow-hidden`}
+                >
+                  {/* Product image as background */}
+                  <div
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      backgroundImage: `url(${product.image})`,
+                      backgroundSize: "contain",
+                      backgroundPosition: "center 60%",
+                      backgroundRepeat: "no-repeat",
+                      zIndex: 1,
+                    }}
+                  />
 
-                {/* Content at the top with higher z-index */}
-                <div className="relative z-10 p-8">
-                  <h3 className="text-[28px] font-semibold mb-1 leading-tight">
-                    {product.name}
-                  </h3>
+                  {/* Content at the top with higher z-index */}
+                  <div className="relative z-10 p-8">
+                    <h3 className="text-[28px] font-semibold mb-1 leading-tight">
+                      {product.name}
+                    </h3>
 
-                  {product.hasGradientTagline ? (
-                    <p className="text-[17px] mb-1">
-                      <span className="bg-gradient-to-r from-[#0066CC] via-[#8E64FF] to-[#E541ED] bg-clip-text text-transparent inline-block">
-                        Apple Intelligence<sup>Δ</sup>
-                      </span>
-                    </p>
-                  ) : (
-                    <p className={`${product.taglineColor} text-[17px] mb-1`}>
-                      {product.tagline}
-                    </p>
-                  )}
+                    {product.hasGradientTagline ? (
+                      <p className="text-[17px] mb-1">
+                        <span className="bg-gradient-to-r from-[#0066CC] via-[#8E64FF] to-[#E541ED] bg-clip-text text-transparent inline-block">
+                          Apple Intelligence<sup>Δ</sup>
+                        </span>
+                      </p>
+                    ) : (
+                      <p className={`${product.taglineColor} text-[17px] mb-1`}>
+                        {product.tagline}
+                      </p>
+                    )}
 
-                  <p className="text-[14px] opacity-90">{product.price}</p>
+                    <p className="text-[14px] opacity-90">{product.price}</p>
+                  </div>
+
+                  {/* Invisible link covering the entire card */}
+                  <Link href="#" className="absolute inset-0 z-20">
+                    <span className="sr-only">
+                      Learn more about {product.name}
+                    </span>
+                  </Link>
                 </div>
-
-                {/* Invisible link covering the entire card */}
-                <Link href="#" className="absolute inset-0 z-20">
-                  <span className="sr-only">
-                    Learn more about {product.name}
-                  </span>
-                </Link>
               </div>
             ))}
           </div>

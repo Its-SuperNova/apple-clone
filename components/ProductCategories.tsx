@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,59 +28,59 @@ const categories = [
 export default function ProductCategories() {
   const [showArrows, setShowArrows] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
-  const checkScrollability = () => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      setCanScrollLeft(scrollContainer.scrollLeft > 0);
-      setCanScrollRight(
-        scrollContainer.scrollLeft <
-          scrollContainer.scrollWidth - scrollContainer.clientWidth
-      );
+  // Check scrollability on mount and window resize
+  useEffect(() => {
+    const checkScrollability = () => {
+      const scrollContainer = scrollContainerRef.current;
+      if (scrollContainer) {
+        const maxScroll =
+          scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        setCanScrollLeft(scrollPosition > 0);
+        setCanScrollRight(scrollPosition < maxScroll);
+      }
+    };
+
+    checkScrollability();
+    window.addEventListener("resize", checkScrollability);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollability);
+    };
+  }, [scrollPosition]);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const newPosition = scrollContainerRef.current.scrollLeft;
+      setScrollPosition(newPosition);
+
+      // Update arrow visibility based on new scroll position
+      const maxScroll =
+        scrollContainerRef.current.scrollWidth -
+        scrollContainerRef.current.clientWidth;
+      setCanScrollLeft(newPosition > 0);
+      setCanScrollRight(newPosition < maxScroll);
     }
   };
 
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      checkScrollability();
-      scrollContainer.addEventListener("scroll", checkScrollability);
-      window.addEventListener("resize", checkScrollability);
-    }
-
-    return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", checkScrollability);
-        window.removeEventListener("resize", checkScrollability);
-      }
-    };
-  }, []);
-
-  const scroll = (direction: "left" | "right") => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
       const scrollAmount = 300; // Adjust scroll amount as needed
-      const newScrollLeft =
-        direction === "left"
-          ? scrollContainer.scrollLeft - scrollAmount
-          : scrollContainer.scrollLeft + scrollAmount;
-
-      scrollContainer.scrollTo({
-        left: newScrollLeft,
+      scrollContainerRef.current.scrollBy({
+        left: -scrollAmount,
         behavior: "smooth",
       });
     }
   };
 
-  // Handle wheel events for horizontal scrolling with mouse wheel
-  const handleWheel = (e: React.WheelEvent) => {
-    if (e.deltaY !== 0 && scrollContainerRef.current) {
-      e.preventDefault();
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 300; // Adjust scroll amount as needed
       scrollContainerRef.current.scrollBy({
-        left: e.deltaY < 0 ? -100 : 100,
+        left: scrollAmount,
         behavior: "smooth",
       });
     }
@@ -98,28 +96,30 @@ export default function ProductCategories() {
       onMouseLeave={() => setShowArrows(false)}
     >
       {/* Left Arrow - Higher z-index */}
-      <button
-        className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity duration-300 ${
-          showArrows && canScrollLeft ? "opacity-100" : "opacity-0"
-        } ${canScrollLeft ? "cursor-pointer" : "cursor-default"}`}
-        onClick={() => scroll("left")}
-        disabled={!canScrollLeft}
-        aria-label="Scroll left"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
+      {canScrollLeft && (
+        <button
+          className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity duration-300 ${
+            showArrows ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={scrollLeft}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+      )}
 
       {/* Right Arrow - Higher z-index */}
-      <button
-        className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity duration-300 ${
-          showArrows && canScrollRight ? "opacity-100" : "opacity-0"
-        } ${canScrollRight ? "cursor-pointer" : "cursor-default"}`}
-        onClick={() => scroll("right")}
-        disabled={!canScrollRight}
-        aria-label="Scroll right"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
+      {canScrollRight && (
+        <button
+          className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity duration-300 ${
+            showArrows ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={scrollRight}
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      )}
 
       {/* Scrollable Container - Full width with left padding to align first item with title */}
       <div
@@ -131,7 +131,7 @@ export default function ProductCategories() {
           scrollBehavior: "smooth",
           WebkitOverflowScrolling: "touch",
         }}
-        onWheel={handleWheel}
+        onScroll={handleScroll}
       >
         <div className="flex pl-[max(1rem,calc((100%-1200px)/2+1rem))] pr-12 space-x-8 md:space-x-12 min-w-max">
           {categories.map((category, index) => (

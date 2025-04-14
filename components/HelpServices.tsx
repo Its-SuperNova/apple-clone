@@ -1,11 +1,9 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState, useRef, useEffect, useCallback } from "react"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Define the help service cards
 const helpServices = [
@@ -36,7 +34,8 @@ const helpServices = [
   {
     category: "TODAY AT APPLE",
     title: "Join free sessions at your Apple Store.",
-    description: "Learn about the latest features and how to go further with your Apple devices.",
+    description:
+      "Learn about the latest features and how to go further with your Apple devices.",
     image: "/store/help-services/today-at-apple.png",
     bgColor: "bg-white",
     textColor: "text-black",
@@ -70,69 +69,78 @@ const helpServices = [
     textPosition: "top",
     overlayColor: "bg-gradient-to-b from-white/90 to-white/0",
   },
-]
+];
 
 export default function HelpServices() {
-  const [showArrows, setShowArrows] = useState(false)
-  const [canScrollLeft, setCanScrollLeft] = useState(false)
-  const [canScrollRight, setCanScrollRight] = useState(false)
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [showArrows, setShowArrows] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
+  // Check if we can scroll left or right based on current scroll position
   const checkScrollability = useCallback(() => {
-    const scrollContainer = scrollContainerRef.current
+    const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      setCanScrollLeft(scrollContainer.scrollLeft > 0)
-      setCanScrollRight(scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth)
+      const maxScroll =
+        scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      setCanScrollLeft(scrollPosition > 0);
+      setCanScrollRight(scrollPosition < maxScroll);
     }
-  }, [])
+  }, [scrollPosition]);
 
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current
-    if (scrollContainer) {
-      checkScrollability()
-      scrollContainer.addEventListener("scroll", checkScrollability)
-      window.addEventListener("resize", checkScrollability)
-    }
+    checkScrollability();
+    window.addEventListener("resize", checkScrollability);
 
     return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", checkScrollability)
-        window.removeEventListener("resize", checkScrollability)
-      }
+      window.removeEventListener("resize", checkScrollability);
+    };
+  }, [checkScrollability]);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const newPosition = scrollContainerRef.current.scrollLeft;
+      setScrollPosition(newPosition);
+
+      // Update arrow visibility based on new scroll position
+      const maxScroll =
+        scrollContainerRef.current.scrollWidth -
+        scrollContainerRef.current.clientWidth;
+      setCanScrollLeft(newPosition > 0);
+      setCanScrollRight(newPosition < maxScroll);
     }
-  }, [checkScrollability])
+  };
 
-  const scroll = useCallback((direction: "left" | "right") => {
-    const scrollContainer = scrollContainerRef.current
-    if (scrollContainer) {
-      const scrollAmount = 480 // One card width
-      const newScrollLeft =
-        direction === "left" ? scrollContainer.scrollLeft - scrollAmount : scrollContainer.scrollLeft + scrollAmount
-
-      scrollContainer.scrollTo({
-        left: newScrollLeft,
-        behavior: "smooth",
-      })
-    }
-  }, [])
-
-  // Handle wheel events for horizontal scrolling with mouse wheel
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    if (e.deltaY !== 0 && scrollContainerRef.current) {
-      e.preventDefault()
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 480; // One card width
       scrollContainerRef.current.scrollBy({
-        left: e.deltaY < 0 ? -100 : 100,
+        left: -scrollAmount,
         behavior: "smooth",
-      })
+      });
     }
-  }, [])
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 480; // One card width
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
       {/* Title section - Separate from scrollable area */}
-      <div className="max-w-[1200px] mx-auto px-6 mt-16">
-        <h2 className="text-[28px] font-semibold mb-4">
-          Help is here. <span className="text-[#6e6e73] font-normal">Whenever and however you need it.</span>
+      <div className="max-w-[1200px] mx-auto px-6 mt-8">
+        <h2 className="text-[28px] font-semibold ">
+          Help is here.{" "}
+          <span className="text-[#6e6e73] font-normal">
+            Whenever and however you need it.
+          </span>
         </h2>
       </div>
 
@@ -147,84 +155,107 @@ export default function HelpServices() {
         onMouseLeave={() => setShowArrows(false)}
       >
         {/* Left Arrow */}
-        <button
-          className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
-            showArrows && canScrollLeft ? "opacity-80" : "opacity-0"
-          } ${canScrollLeft ? "cursor-pointer" : "cursor-default"}`}
-          onClick={() => scroll("left")}
-          disabled={!canScrollLeft}
-          aria-label="Scroll left"
-        >
-          <ChevronLeft className="w-8 h-8 text-gray-600" />
-        </button>
+        {canScrollLeft && (
+          <button
+            className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
+              showArrows ? "opacity-80" : "opacity-0"
+            }`}
+            onClick={scrollLeft}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-8 h-8 text-gray-600" />
+          </button>
+        )}
 
         {/* Right Arrow */}
-        <button
-          className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
-            showArrows && canScrollRight ? "opacity-80" : "opacity-0"
-          } ${canScrollRight ? "cursor-pointer" : "cursor-default"}`}
-          onClick={() => scroll("right")}
-          disabled={!canScrollRight}
-          aria-label="Scroll right"
-        >
-          <ChevronRight className="w-8 h-8 text-gray-600" />
-        </button>
+        {canScrollRight && (
+          <button
+            className={`absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-200/70 hover:bg-gray-200/90 rounded-full p-4 shadow-md transition-opacity duration-300 ${
+              showArrows ? "opacity-80" : "opacity-0"
+            }`}
+            onClick={scrollRight}
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-8 h-8 text-gray-600" />
+          </button>
+        )}
 
         {/* Scrollable Container */}
         <div
           ref={scrollContainerRef}
-          className="overflow-x-auto scrollbar-hide w-full smooth-scroll"
+          className="overflow-x-auto scrollbar-hide w-full smooth-scroll pb-8"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
             scrollBehavior: "smooth",
             WebkitOverflowScrolling: "touch",
           }}
-          onWheel={handleWheel}
+          onScroll={handleScroll}
         >
-          <div className="flex pl-[max(1rem,calc((100%-1200px)/2+1rem))] pr-12 space-x-6 min-w-max">
+          <div className="flex pl-[max(1rem,calc((100%-1200px)/2+1rem))] pr-12 min-w-max">
             {helpServices.map((service, index) => (
               <div
                 key={index}
-                className={`${service.bgColor} ${service.textColor} rounded-3xl overflow-hidden relative flex-shrink-0 w-[480px] h-[500px] ${service.borderClass || ""}`}
+                className="group p-4 overflow-visible" // Added padding and overflow-visible
               >
-                {/* Service image */}
                 <div
-                  className="absolute inset-0 w-full h-full"
-                  style={{
-                    backgroundImage: `url(${service.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: service.imagePosition || "center",
-                    backgroundRepeat: "no-repeat",
-                    zIndex: 1,
-                  }}
-                />
+                  className={`${service.bgColor} ${
+                    service.textColor
+                  } rounded-3xl relative flex-shrink-0 w-[480px] h-[500px] ${
+                    service.borderClass || ""
+                  } transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl cursor-pointer overflow-hidden`}
+                >
+                  {/* Service image */}
+                  <div
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      backgroundImage: `url(${service.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: service.imagePosition || "center",
+                      backgroundRepeat: "no-repeat",
+                      zIndex: 1,
+                    }}
+                  />
 
-                {/* Gradient overlay for text readability */}
-                <div
-                  className={`absolute inset-0 w-full ${service.textPosition === "top" ? "h-48" : "h-full"} ${service.overlayColor} z-[2]`}
-                />
+                  {/* Gradient overlay for text readability */}
+                  <div
+                    className={`absolute inset-0 w-full ${
+                      service.textPosition === "top" ? "h-48" : "h-full"
+                    } ${service.overlayColor} z-[2]`}
+                  />
 
-                {/* Content overlay with higher z-index */}
-                <div className="relative z-10 p-8 flex flex-col h-full">
-                  {service.category && (
-                    <span className="text-xs uppercase tracking-wider mb-1">{service.category}</span>
-                  )}
-                  <h3 className="text-[28px] font-semibold mb-2 leading-tight">{service.title}</h3>
-                  {service.description && <p className="text-[17px]">{service.description}</p>}
+                  {/* Content overlay with higher z-index */}
+                  <div className="relative z-10 p-8 flex flex-col h-full">
+                    {service.category && (
+                      <span className="text-xs uppercase tracking-wider mb-1">
+                        {service.category}
+                      </span>
+                    )}
+                    <h3 className="text-[28px] font-semibold mb-2 leading-tight">
+                      {service.title}
+                    </h3>
+                    {service.description && (
+                      <p className="text-[17px]">{service.description}</p>
+                    )}
 
-                  {/* Push link to bottom */}
-                  <div className="mt-auto">
-                    <Link href="#" className="text-apple-blue hover:underline text-[17px]">
-                      Learn more &gt;
-                    </Link>
+                    {/* Push link to bottom */}
+                    <div className="mt-auto">
+                      <Link
+                        href="#"
+                        className="text-apple-blue hover:underline text-[17px]"
+                      >
+                        Learn more &gt;
+                      </Link>
+                    </div>
                   </div>
-                </div>
 
-                {/* Invisible link covering the entire card */}
-                <Link href="#" className="absolute inset-0 z-20">
-                  <span className="sr-only">Learn more about {service.title}</span>
-                </Link>
+                  {/* Invisible link covering the entire card */}
+                  <Link href="#" className="absolute inset-0 z-20">
+                    <span className="sr-only">
+                      Learn more about {service.title}
+                    </span>
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -236,7 +267,7 @@ export default function HelpServices() {
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
           }
-          
+
           /* Smooth scrolling for all browsers */
           .smooth-scroll {
             scroll-behavior: smooth;
@@ -245,5 +276,5 @@ export default function HelpServices() {
         `}</style>
       </motion.section>
     </>
-  )
+  );
 }

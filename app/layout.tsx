@@ -10,7 +10,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Apple",
   description: "Apple website clone",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({

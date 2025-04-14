@@ -6,6 +6,7 @@ import PromoBanner from "@/components/PromoBanner";
 import StoreHero from "@/components/StoreHero";
 import ProductCategories from "@/components/ProductCategories";
 import LatestProducts from "@/components/LatestProducts";
+import HelpServices from "@/components/HelpServices";
 
 export default function Home() {
   // Initialize smooth scroll with useRef and useEffect
@@ -16,7 +17,6 @@ export default function Home() {
     lenisRef.current = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      
       touchMultiplier: 2,
     });
 
@@ -41,12 +41,11 @@ export default function Home() {
 
   return (
     <div className="pt-12">
-      {" "}
-      {/* Add padding-top to account for the fixed header */}
       <PromoBanner />
       <StoreHero />
       <ProductCategories />
       <LatestProducts />
+      <HelpServices />
     </div>
   );
 }

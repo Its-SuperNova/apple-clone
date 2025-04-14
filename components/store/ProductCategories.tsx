@@ -1,90 +1,81 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // Define the product categories
 const categories = [
   { name: "Mac", image: "/store/product-categories/mac-lineup.png" },
   { name: "iPhone", image: "/store/product-categories/iphone-lineup.png" },
   { name: "iPad", image: "/store/product-categories/ipad-lineup.png" },
-  {
-    name: "Apple Watch",
-    image: "/store/product-categories/apple-watch-lineup.png",
-  },
+  { name: "Apple Watch", image: "/store/product-categories/apple-watch-lineup.png" },
   { name: "AirPods", image: "/store/product-categories/airpods-pro.png" },
   { name: "AirTag", image: "/store/product-categories/airtag.png" },
   { name: "Apple TV 4K", image: "/store/product-categories/apple-tv.png" },
   { name: "HomePod", image: "/store/product-categories/homepod.png" },
-  {
-    name: "Accessories",
-    image: "/store/product-categories/accessories-lineup.png",
-  },
-];
+  { name: "Accessories", image: "/store/product-categories/accessories-lineup.png" },
+]
 
 export default function ProductCategories() {
-  const [showArrows, setShowArrows] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [showArrows, setShowArrows] = useState(false)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
 
   // Check scrollability on mount and window resize
   useEffect(() => {
     const checkScrollability = () => {
-      const scrollContainer = scrollContainerRef.current;
+      const scrollContainer = scrollContainerRef.current
       if (scrollContainer) {
-        const maxScroll =
-          scrollContainer.scrollWidth - scrollContainer.clientWidth;
-        setCanScrollLeft(scrollPosition > 0);
-        setCanScrollRight(scrollPosition < maxScroll);
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+        setCanScrollLeft(scrollPosition > 0)
+        setCanScrollRight(scrollPosition < maxScroll)
       }
-    };
+    }
 
-    checkScrollability();
-    window.addEventListener("resize", checkScrollability);
+    checkScrollability()
+    window.addEventListener("resize", checkScrollability)
 
     return () => {
-      window.removeEventListener("resize", checkScrollability);
-    };
-  }, [scrollPosition]);
+      window.removeEventListener("resize", checkScrollability)
+    }
+  }, [scrollPosition])
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const newPosition = scrollContainerRef.current.scrollLeft;
-      setScrollPosition(newPosition);
+      const newPosition = scrollContainerRef.current.scrollLeft
+      setScrollPosition(newPosition)
 
       // Update arrow visibility based on new scroll position
-      const maxScroll =
-        scrollContainerRef.current.scrollWidth -
-        scrollContainerRef.current.clientWidth;
-      setCanScrollLeft(newPosition > 0);
-      setCanScrollRight(newPosition < maxScroll);
+      const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth
+      setCanScrollLeft(newPosition > 0)
+      setCanScrollRight(newPosition < maxScroll)
     }
-  };
+  }
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300; // Adjust scroll amount as needed
+      const scrollAmount = 300 // Adjust scroll amount as needed
       scrollContainerRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300; // Adjust scroll amount as needed
+      const scrollAmount = 300 // Adjust scroll amount as needed
       scrollContainerRef.current.scrollBy({
         left: scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   return (
     <motion.section
@@ -154,9 +145,7 @@ export default function ProductCategories() {
                     className="object-contain"
                   />
                 </div>
-                <span className="text-sm md:text-base text-center">
-                  {category.name}
-                </span>
+                <span className="text-sm md:text-base text-center">{category.name}</span>
               </Link>
             </motion.div>
           ))}
@@ -169,7 +158,7 @@ export default function ProductCategories() {
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-
+        
         /* Smooth scrolling for all browsers */
         .smooth-scroll {
           scroll-behavior: smooth;
@@ -177,5 +166,5 @@ export default function ProductCategories() {
         }
       `}</style>
     </motion.section>
-  );
+  )
 }

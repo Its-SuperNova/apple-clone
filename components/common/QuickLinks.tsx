@@ -1,13 +1,11 @@
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 
 export default function QuickLinks() {
   return (
     <div className="bg-[#f5f5f7] py-6">
       <div className="max-w-[1140px] mx-auto px-4">
-        <h2 className="text-[22px] font-semibold text-[#1d1d1f] mb-3">
-          Quick Links
-        </h2>
+        <h2 className="text-[22px] font-semibold text-[#1d1d1f] mb-3">Quick Links</h2>
         <div className="flex flex-wrap gap-2">
           <Link
             href="/store-finder"
@@ -42,5 +40,5 @@ export default function QuickLinks() {
         </div>
       </div>
     </div>
-  );
+  )
 }

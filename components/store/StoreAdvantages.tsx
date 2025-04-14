@@ -1,17 +1,11 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  Truck,
-  CreditCard,
-  Smartphone,
-  ShoppingBag,
-  Smile,
-} from "lucide-react";
-import { FaApple } from "react-icons/fa";
+import { useState, useRef, useEffect, useCallback } from "react"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Truck, CreditCard, Smartphone, ShoppingBag, Smile } from "lucide-react"
+import { FaApple } from "react-icons/fa"
 
 // Define the store advantages
 const storeAdvantages = [
@@ -19,9 +13,8 @@ const storeAdvantages = [
     icon: <Truck className="w-8 h-8 text-green-600" />,
     title: (
       <>
-        Enjoy <span className="text-green-600">two-hour delivery</span> from an
-        Apple Store, <span className="text-green-600">free delivery</span>, or{" "}
-        <span className="text-green-600">easy pickup.</span>
+        Enjoy <span className="text-green-600">two-hour delivery</span> from an Apple Store,{" "}
+        <span className="text-green-600">free delivery</span>, or <span className="text-green-600">easy pickup.</span>
         <sup>2</sup>
       </>
     ),
@@ -30,8 +23,7 @@ const storeAdvantages = [
     icon: <Smartphone className="w-8 h-8 text-blue-500" />,
     title: (
       <>
-        <span className="text-blue-500">Trade in your current device.</span> Get
-        credit toward a new one.<sup>3</sup>
+        <span className="text-blue-500">Trade in your current device.</span> Get credit toward a new one.<sup>3</sup>
       </>
     ),
   },
@@ -39,8 +31,7 @@ const storeAdvantages = [
     icon: <CreditCard className="w-8 h-8 text-green-600" />,
     title: (
       <>
-        Pay in full or <span className="text-green-600">pay over time.</span>{" "}
-        Your choice.
+        Pay in full or <span className="text-green-600">pay over time.</span> Your choice.
       </>
     ),
   },
@@ -48,8 +39,7 @@ const storeAdvantages = [
     icon: <ShoppingBag className="w-8 h-8 text-blue-500" />,
     title: (
       <>
-        Get a <span className="text-blue-500">personalized shopping</span>{" "}
-        experience in the{" "}
+        Get a <span className="text-blue-500">personalized shopping</span> experience in the{" "}
         <span className="text-blue-500">Apple Store app.</span>
       </>
     ),
@@ -58,10 +48,7 @@ const storeAdvantages = [
     icon: <Smile className="w-8 h-8 text-purple-500" />,
     title: (
       <>
-        Make them yours.{" "}
-        <span className="text-purple-500">
-          Engrave a mix of emoji, names, and numbers for free.
-        </span>
+        Make them yours. <span className="text-purple-500">Engrave a mix of emoji, names, and numbers for free.</span>
       </>
     ),
   },
@@ -69,73 +56,69 @@ const storeAdvantages = [
     icon: <FaApple className="w-8 h-8 text-orange-500" />,
     title: (
       <>
-        <span className="text-orange-500">Customize</span> your Mac and create
-        your own style of Apple Watch.
+        <span className="text-orange-500">Customize</span> your Mac and create your own style of Apple Watch.
       </>
     ),
   },
-];
+]
 
 export default function StoreAdvantages() {
-  const [showArrows, setShowArrows] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [showArrows, setShowArrows] = useState(false)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
 
   // Check if we can scroll left or right based on current scroll position
   const checkScrollability = useCallback(() => {
-    const scrollContainer = scrollContainerRef.current;
+    const scrollContainer = scrollContainerRef.current
     if (scrollContainer) {
-      const maxScroll =
-        scrollContainer.scrollWidth - scrollContainer.clientWidth;
-      setCanScrollLeft(scrollPosition > 0);
-      setCanScrollRight(scrollPosition < maxScroll);
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+      setCanScrollLeft(scrollPosition > 0)
+      setCanScrollRight(scrollPosition < maxScroll)
     }
-  }, [scrollPosition]);
+  }, [scrollPosition])
 
   useEffect(() => {
-    checkScrollability();
-    window.addEventListener("resize", checkScrollability);
+    checkScrollability()
+    window.addEventListener("resize", checkScrollability)
 
     return () => {
-      window.removeEventListener("resize", checkScrollability);
-    };
-  }, [checkScrollability]);
+      window.removeEventListener("resize", checkScrollability)
+    }
+  }, [checkScrollability])
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const newPosition = scrollContainerRef.current.scrollLeft;
-      setScrollPosition(newPosition);
+      const newPosition = scrollContainerRef.current.scrollLeft
+      setScrollPosition(newPosition)
 
       // Update arrow visibility based on new scroll position
-      const maxScroll =
-        scrollContainerRef.current.scrollWidth -
-        scrollContainerRef.current.clientWidth;
-      setCanScrollLeft(newPosition > 0);
-      setCanScrollRight(newPosition < maxScroll);
+      const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth
+      setCanScrollLeft(newPosition > 0)
+      setCanScrollRight(newPosition < maxScroll)
     }
-  };
+  }
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 340; // Approximately one card width + gap
+      const scrollAmount = 340 // Approximately one card width + gap
       scrollContainerRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 340; // Approximately one card width + gap
+      const scrollAmount = 340 // Approximately one card width + gap
       scrollContainerRef.current.scrollBy({
         left: scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   return (
     <>
@@ -143,9 +126,7 @@ export default function StoreAdvantages() {
       <div className="max-w-[1200px] mx-auto px-6 mt-16 mb-6">
         <h2 className="text-[28px] font-semibold">
           The Apple Store difference.{" "}
-          <span className="text-[#6e6e73] font-normal">
-            Even more reasons to shop with us.
-          </span>
+          <span className="text-[#6e6e73] font-normal">Even more reasons to shop with us.</span>
         </h2>
       </div>
 
@@ -207,16 +188,12 @@ export default function StoreAdvantages() {
                   {/* Content */}
                   <div className="px-[30px] pt-[30px] flex flex-col h-full">
                     <div className="mb-4">{advantage.icon}</div>
-                    <h3 className="text-[24px] leading-[28px] font-semibold">
-                      {advantage.title}
-                    </h3>
+                    <h3 className="text-[24px] leading-[28px] font-semibold">{advantage.title}</h3>
                   </div>
 
                   {/* Invisible link covering the entire card */}
                   <Link href="#" className="absolute inset-0 z-20">
-                    <span className="sr-only">
-                      Learn more about Apple Store advantages
-                    </span>
+                    <span className="sr-only">Learn more about Apple Store advantages</span>
                   </Link>
                 </div>
               </div>
@@ -230,7 +207,7 @@ export default function StoreAdvantages() {
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
           }
-
+          
           /* Smooth scrolling for all browsers */
           .smooth-scroll {
             scroll-behavior: smooth;
@@ -239,5 +216,5 @@ export default function StoreAdvantages() {
         `}</style>
       </motion.section>
     </>
-  );
+  )
 }

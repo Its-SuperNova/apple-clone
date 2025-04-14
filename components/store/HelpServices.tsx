@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // Define the help service cards
 const helpServices = [
@@ -34,8 +34,7 @@ const helpServices = [
   {
     category: "TODAY AT APPLE",
     title: "Join free sessions at your Apple Store.",
-    description:
-      "Learn about the latest features and how to go further with your Apple devices.",
+    description: "Learn about the latest features and how to go further with your Apple devices.",
     image: "/store/help-services/today-at-apple.png",
     bgColor: "bg-white",
     textColor: "text-black",
@@ -69,78 +68,72 @@ const helpServices = [
     textPosition: "top",
     overlayColor: "bg-gradient-to-b from-white/90 to-white/0",
   },
-];
+]
 
 export default function HelpServices() {
-  const [showArrows, setShowArrows] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [showArrows, setShowArrows] = useState(false)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
 
   // Check if we can scroll left or right based on current scroll position
   const checkScrollability = useCallback(() => {
-    const scrollContainer = scrollContainerRef.current;
+    const scrollContainer = scrollContainerRef.current
     if (scrollContainer) {
-      const maxScroll =
-        scrollContainer.scrollWidth - scrollContainer.clientWidth;
-      setCanScrollLeft(scrollPosition > 0);
-      setCanScrollRight(scrollPosition < maxScroll);
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+      setCanScrollLeft(scrollPosition > 0)
+      setCanScrollRight(scrollPosition < maxScroll)
     }
-  }, [scrollPosition]);
+  }, [scrollPosition])
 
   useEffect(() => {
-    checkScrollability();
-    window.addEventListener("resize", checkScrollability);
+    checkScrollability()
+    window.addEventListener("resize", checkScrollability)
 
     return () => {
-      window.removeEventListener("resize", checkScrollability);
-    };
-  }, [checkScrollability]);
+      window.removeEventListener("resize", checkScrollability)
+    }
+  }, [checkScrollability])
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const newPosition = scrollContainerRef.current.scrollLeft;
-      setScrollPosition(newPosition);
+      const newPosition = scrollContainerRef.current.scrollLeft
+      setScrollPosition(newPosition)
 
       // Update arrow visibility based on new scroll position
-      const maxScroll =
-        scrollContainerRef.current.scrollWidth -
-        scrollContainerRef.current.clientWidth;
-      setCanScrollLeft(newPosition > 0);
-      setCanScrollRight(newPosition < maxScroll);
+      const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth
+      setCanScrollLeft(newPosition > 0)
+      setCanScrollRight(newPosition < maxScroll)
     }
-  };
+  }
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 480; // One card width
+      const scrollAmount = 480 // One card width
       scrollContainerRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 480; // One card width
+      const scrollAmount = 480 // One card width
       scrollContainerRef.current.scrollBy({
         left: scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   return (
     <>
       {/* Title section - Separate from scrollable area */}
       <div className="max-w-[1200px] mx-auto px-6 mt-8">
         <h2 className="text-[28px] font-semibold ">
-          Help is here.{" "}
-          <span className="text-[#6e6e73] font-normal">
-            Whenever and however you need it.
-          </span>
+          Help is here. <span className="text-[#6e6e73] font-normal">Whenever and however you need it.</span>
         </h2>
       </div>
 
@@ -199,11 +192,7 @@ export default function HelpServices() {
                 className="group p-4 overflow-visible" // Added padding and overflow-visible
               >
                 <div
-                  className={`${service.bgColor} ${
-                    service.textColor
-                  } rounded-3xl relative flex-shrink-0 w-[480px] h-[500px] ${
-                    service.borderClass || ""
-                  } transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl cursor-pointer overflow-hidden`}
+                  className={`${service.bgColor} ${service.textColor} rounded-3xl relative flex-shrink-0 w-[480px] h-[500px] ${service.borderClass || ""} transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl cursor-pointer overflow-hidden`}
                 >
                   {/* Service image */}
                   <div
@@ -219,31 +208,20 @@ export default function HelpServices() {
 
                   {/* Gradient overlay for text readability */}
                   <div
-                    className={`absolute inset-0 w-full ${
-                      service.textPosition === "top" ? "h-48" : "h-full"
-                    } ${service.overlayColor} z-[2]`}
+                    className={`absolute inset-0 w-full ${service.textPosition === "top" ? "h-48" : "h-full"} ${service.overlayColor} z-[2]`}
                   />
 
                   {/* Content overlay with higher z-index */}
                   <div className="relative z-10 p-8 flex flex-col h-full">
                     {service.category && (
-                      <span className="text-xs uppercase tracking-wider mb-1">
-                        {service.category}
-                      </span>
+                      <span className="text-xs uppercase tracking-wider mb-1">{service.category}</span>
                     )}
-                    <h3 className="text-[28px] font-semibold mb-2 leading-tight">
-                      {service.title}
-                    </h3>
-                    {service.description && (
-                      <p className="text-[17px]">{service.description}</p>
-                    )}
+                    <h3 className="text-[28px] font-semibold mb-2 leading-tight">{service.title}</h3>
+                    {service.description && <p className="text-[17px]">{service.description}</p>}
 
                     {/* Push link to bottom */}
                     <div className="mt-auto">
-                      <Link
-                        href="#"
-                        className="text-apple-blue hover:underline text-[17px]"
-                      >
+                      <Link href="#" className="text-apple-blue hover:underline text-[17px]">
                         Learn more &gt;
                       </Link>
                     </div>
@@ -251,9 +229,7 @@ export default function HelpServices() {
 
                   {/* Invisible link covering the entire card */}
                   <Link href="#" className="absolute inset-0 z-20">
-                    <span className="sr-only">
-                      Learn more about {service.title}
-                    </span>
+                    <span className="sr-only">Learn more about {service.title}</span>
                   </Link>
                 </div>
               </div>
@@ -267,7 +243,7 @@ export default function HelpServices() {
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
           }
-
+          
           /* Smooth scrolling for all browsers */
           .smooth-scroll {
             scroll-behavior: smooth;
@@ -276,5 +252,5 @@ export default function HelpServices() {
         `}</style>
       </motion.section>
     </>
-  );
+  )
 }

@@ -2,14 +2,14 @@
 
 import { useEffect, useRef } from "react";
 import Lenis from "@studio-freight/lenis";
-import PromoBanner from "@/components/PromoBanner";
-import StoreHero from "@/components/StoreHero";
-import ProductCategories from "@/components/ProductCategories";
-import LatestProducts from "@/components/LatestProducts";
-import HelpServices from "@/components/HelpServices";
-import StoreAdvantages from "@/components/StoreAdvantages";
-import AppleExperience from "@/components/AppleExperience";
-import QuickLinks from "@/components/QuickLink";
+import PromoBanner from "@/components/common/PromoBanner";
+import StoreHero from "@/components/store/StoreHero";
+import ProductCategories from "@/components/store/ProductCategories";
+import LatestProducts from "@/components/store/LatestProducts";
+import HelpServices from "@/components/store/HelpServices";
+import StoreAdvantages from "@/components/store/StoreAdvantages";
+import AppleExperience from "@/components/store/AppleExperience";
+import QuickLinks from "@/components/common/QuickLinks";
 
 export default function Home() {
   // Initialize smooth scroll with useRef and useEffect

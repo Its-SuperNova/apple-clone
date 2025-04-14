@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // Define the latest products
 const latestProducts = [
@@ -81,78 +81,72 @@ const latestProducts = [
     textColor: "text-white",
     taglineColor: "text-[#2997ff]",
   },
-];
+]
 
 export default function LatestProducts() {
-  const [showArrows, setShowArrows] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [showArrows, setShowArrows] = useState(false)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
 
   // Check if we can scroll left or right based on current scroll position
   const checkScrollability = useCallback(() => {
-    const scrollContainer = scrollContainerRef.current;
+    const scrollContainer = scrollContainerRef.current
     if (scrollContainer) {
-      const maxScroll =
-        scrollContainer.scrollWidth - scrollContainer.clientWidth;
-      setCanScrollLeft(scrollPosition > 0);
-      setCanScrollRight(scrollPosition < maxScroll);
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth
+      setCanScrollLeft(scrollPosition > 0)
+      setCanScrollRight(scrollPosition < maxScroll)
     }
-  }, [scrollPosition]);
+  }, [scrollPosition])
 
   useEffect(() => {
-    checkScrollability();
-    window.addEventListener("resize", checkScrollability);
+    checkScrollability()
+    window.addEventListener("resize", checkScrollability)
 
     return () => {
-      window.removeEventListener("resize", checkScrollability);
-    };
-  }, [checkScrollability]);
+      window.removeEventListener("resize", checkScrollability)
+    }
+  }, [checkScrollability])
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const newPosition = scrollContainerRef.current.scrollLeft;
-      setScrollPosition(newPosition);
+      const newPosition = scrollContainerRef.current.scrollLeft
+      setScrollPosition(newPosition)
 
       // Update arrow visibility based on new scroll position
-      const maxScroll =
-        scrollContainerRef.current.scrollWidth -
-        scrollContainerRef.current.clientWidth;
-      setCanScrollLeft(newPosition > 0);
-      setCanScrollRight(newPosition < maxScroll);
+      const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth
+      setCanScrollLeft(newPosition > 0)
+      setCanScrollRight(newPosition < maxScroll)
     }
-  };
+  }
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 400; // Approximately one card width
+      const scrollAmount = 400 // Approximately one card width
       scrollContainerRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 400; // Approximately one card width
+      const scrollAmount = 400 // Approximately one card width
       scrollContainerRef.current.scrollBy({
         left: scrollAmount,
         behavior: "smooth",
-      });
+      })
     }
-  };
+  }
 
   return (
     <>
       {/* Title section - Separate from scrollable area */}
       <div className="max-w-[1200px] mx-auto px-6 mt-16">
         <h2 className="text-[28px] font-semibold">
-          The latest.{" "}
-          <span className="text-[#6e6e73] font-normal">
-            Take a look at what's new right now.
-          </span>
+          The latest. <span className="text-[#6e6e73] font-normal">Take a look at what's new right now.</span>
         </h2>
       </div>
 
@@ -211,11 +205,7 @@ export default function LatestProducts() {
                 className="group p-4 overflow-visible" // Added padding and overflow-visible
               >
                 <div
-                  className={`${product.bgColor} ${
-                    product.textColor
-                  } rounded-3xl relative flex-shrink-0 w-[400px] h-[500px] ${
-                    product.borderClass || ""
-                  } transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl cursor-pointer overflow-hidden`}
+                  className={`${product.bgColor} ${product.textColor} rounded-3xl relative flex-shrink-0 w-[400px] h-[500px] ${product.borderClass || ""} transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-xl cursor-pointer overflow-hidden`}
                 >
                   {/* Product image as background */}
                   <div
@@ -231,9 +221,7 @@ export default function LatestProducts() {
 
                   {/* Content at the top with higher z-index */}
                   <div className="relative z-10 p-8">
-                    <h3 className="text-[28px] font-semibold mb-1 leading-tight">
-                      {product.name}
-                    </h3>
+                    <h3 className="text-[28px] font-semibold mb-1 leading-tight">{product.name}</h3>
 
                     {product.hasGradientTagline ? (
                       <p className="text-[17px] mb-1">
@@ -242,9 +230,7 @@ export default function LatestProducts() {
                         </span>
                       </p>
                     ) : (
-                      <p className={`${product.taglineColor} text-[17px] mb-1`}>
-                        {product.tagline}
-                      </p>
+                      <p className={`${product.taglineColor} text-[17px] mb-1`}>{product.tagline}</p>
                     )}
 
                     <p className="text-[14px] opacity-90">{product.price}</p>
@@ -252,9 +238,7 @@ export default function LatestProducts() {
 
                   {/* Invisible link covering the entire card */}
                   <Link href="#" className="absolute inset-0 z-20">
-                    <span className="sr-only">
-                      Learn more about {product.name}
-                    </span>
+                    <span className="sr-only">Learn more about {product.name}</span>
                   </Link>
                 </div>
               </div>
@@ -268,7 +252,7 @@ export default function LatestProducts() {
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
           }
-
+          
           /* Smooth scrolling for all browsers */
           .smooth-scroll {
             scroll-behavior: smooth;
@@ -277,5 +261,5 @@ export default function LatestProducts() {
         `}</style>
       </motion.section>
     </>
-  );
+  )
 }

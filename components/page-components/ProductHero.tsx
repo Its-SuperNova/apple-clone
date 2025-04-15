@@ -89,8 +89,8 @@ export default function ProductHero({
   }, [])
 
   // Calculate styles based on scroll progress
-  const scale = 1 - scrollProgress * 0.4 // Scale from 1.0 to 0.6
-  const borderRadius = scrollProgress * 40 // Border radius from 0 to 40px
+  const scale = 1 - scrollProgress * 0.3 // Scale from 1.0 to 0.6
+  const borderRadius = scrollProgress * 100 // Border radius from 0 to 100px
   const marginTop = scrollProgress * 80 // Margin top from 0 to 80px
 
   return (

@@ -168,27 +168,26 @@ const macComparisonTabs = [
   { id: "displays", label: "Displays" },
 ];
 
-// This is a simplified version - you would need to add all the product data
+// Complete Mac comparison content with all products
 const macComparisonContent = [
   {
     tabId: "laptops",
     products: [
       {
         id: "macbook-air",
-        image:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HQahJo8zTB2fkqA5jiIPzmwwhMybm5.png",
+        image: "/mac/macbook-air-silver.png",
         imageAlt: "MacBook Air 13 and 15 inch",
         colors: (
           <>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-black"></div>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+            <div className="w-4 h-4 rounded-full bg-gray-800 border border-gray-700"></div>
+            <div className="w-4 h-4 rounded-full bg-blue-100 border border-blue-200"></div>
+            <div className="w-4 h-4 rounded-full bg-amber-700 border border-amber-800"></div>
           </>
         ),
         newLabel: true,
         title: 'MacBook Air 13" and 15"',
-        subtitle: "M4 chip",
+        subtitle: "M3 chip",
         description:
           "Strikingly thin and fast so you can work, play, or create anywhere.",
         price: "From $999 or $83.25/mo. for 12 mo.",
@@ -208,16 +207,350 @@ const macComparisonContent = [
             footnote: "3",
           },
           {
-            label: "M4 chip",
-            value: "Apple M4 chip",
+            label: "M3",
+            value: "Apple M3 chip with 8-core CPU, 10-core GPU",
           },
-          // Add more specs as needed
+          {
+            label: "Up to 18 hours",
+            value: "Battery life",
+            footnote: "4",
+          },
+          {
+            label: "1080p FaceTime HD camera",
+            value: "With advanced image signal processor",
+          },
+          {
+            label: "2.7 pounds",
+            value: "For 13-inch model",
+          },
         ],
       },
-      // Add more products as needed
+      {
+        id: "macbook-pro",
+        image: "/mac/macbook-pro-space-gray.png",
+        imageAlt: "MacBook Pro 14 and 16 inch",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+            <div className="w-4 h-4 rounded-full bg-gray-800 border border-gray-700"></div>
+          </>
+        ),
+        newLabel: true,
+        title: 'MacBook Pro 14" and 16"',
+        subtitle: "M3, M3 Pro, or M3 Max chip",
+        description: "The most advanced Mac laptops for demanding workflows.",
+        price: "From $1599 or $133.25/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: '14.2" or 16.2"',
+            value: (
+              <>
+                Liquid Retina XDR display with 1000 nits of brightness
+                <br />
+                and support for 1 billion colors
+              </>
+            ),
+            footnote: "3",
+          },
+          {
+            label: "M3",
+            value: "Up to M3 Max chip with 16-core CPU, 40-core GPU",
+          },
+          {
+            label: "Up to 22 hours",
+            value: "Battery life",
+            footnote: "4",
+          },
+          {
+            label: "1080p FaceTime HD camera",
+            value: "With advanced image signal processor",
+          },
+          {
+            label: "3.4 or 4.7 pounds",
+            value: "Depending on model",
+          },
+        ],
+      },
     ],
   },
-  // Add more tab contents as needed
+  {
+    tabId: "desktops",
+    products: [
+      {
+        id: "imac",
+        image: "/mac/imac-blue.png",
+        imageAlt: "iMac 24-inch",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-blue-500 border border-blue-600"></div>
+            <div className="w-4 h-4 rounded-full bg-green-500 border border-green-600"></div>
+            <div className="w-4 h-4 rounded-full bg-pink-500 border border-pink-600"></div>
+            <div className="w-4 h-4 rounded-full bg-purple-500 border border-purple-600"></div>
+          </>
+        ),
+        newLabel: true,
+        title: 'iMac 24"',
+        subtitle: "M3 chip",
+        description: "A colorful all-in-one desktop that transforms any space.",
+        price: "From $1299 or $108.25/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: '24"',
+            value: (
+              <>
+                4.5K Retina display with 500 nits of brightness
+                <br />
+                and support for 1 billion colors
+              </>
+            ),
+            footnote: "3",
+          },
+          {
+            label: "M3",
+            value: "Apple M3 chip with 8-core CPU, up to 10-core GPU",
+          },
+          {
+            label: "1080p FaceTime HD camera",
+            value: "With advanced image signal processor",
+          },
+          {
+            label: "Six-speaker system",
+            value: "With force-cancelling woofers",
+          },
+          {
+            label: "Matching Magic Keyboard and Magic Mouse",
+            value: "Or Magic Trackpad",
+          },
+        ],
+      },
+      {
+        id: "mac-mini",
+        image: "/mac/mac-mini-side.png",
+        imageAlt: "Mac mini",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+          </>
+        ),
+        newLabel: true,
+        title: "Mac mini",
+        subtitle: "M2 or M2 Pro chip",
+        description: "Massive performance in a minimal footprint.",
+        price: "From $599 or $49.91/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: "M2",
+            value: "Apple M2 or M2 Pro chip",
+          },
+          {
+            label: "Up to 32GB",
+            value: "Unified memory",
+          },
+          {
+            label: "Up to 8TB",
+            value: "SSD storage",
+          },
+          {
+            label: "Thunderbolt 4 ports",
+            value: "Up to four",
+          },
+          {
+            label: "Support for up to 3 displays",
+            value: "With M2 Pro chip",
+          },
+        ],
+      },
+      {
+        id: "mac-studio",
+        image: "/mac/mac-studio-side.png",
+        imageAlt: "Mac Studio",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+          </>
+        ),
+        newLabel: false,
+        title: "Mac Studio",
+        subtitle: "M2 Max or M2 Ultra chip",
+        description: "Outrageous performance for pros.",
+        price: "From $1999 or $166.58/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: "M2 Max",
+            value: "Up to M2 Ultra chip with 24-core CPU, 76-core GPU",
+          },
+          {
+            label: "Up to 192GB",
+            value: "Unified memory",
+          },
+          {
+            label: "Up to 8TB",
+            value: "SSD storage",
+          },
+          {
+            label: "Up to 6 Thunderbolt 4 ports",
+            value: "Plus HDMI, USB-A, and more",
+          },
+          {
+            label: "Support for up to 8 displays",
+            value: "With M2 Ultra chip",
+          },
+        ],
+      },
+      {
+        id: "mac-pro",
+        image: "/mac/mac-pro-tower.png",
+        imageAlt: "Mac Pro",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+          </>
+        ),
+        newLabel: false,
+        title: "Mac Pro",
+        subtitle: "M2 Ultra chip",
+        description: "The ultimate Mac for the most demanding workflows.",
+        price: "From $6999 or $583.25/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: "M2 Ultra",
+            value: "Apple M2 Ultra chip with 24-core CPU, 76-core GPU",
+          },
+          {
+            label: "Up to 192GB",
+            value: "Unified memory",
+          },
+          {
+            label: "Up to 8TB",
+            value: "SSD storage",
+          },
+          {
+            label: "7 PCIe expansion slots",
+            value: "For maximum flexibility",
+          },
+          {
+            label: "Support for up to 8 displays",
+            value: "With M2 Ultra chip",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    tabId: "displays",
+    products: [
+      {
+        id: "studio-display",
+        image: "/mac/studio-display.png",
+        imageAlt: "Studio Display",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+          </>
+        ),
+        newLabel: false,
+        title: "Studio Display",
+        subtitle: "The perfect Mac companion",
+        description:
+          "A 27-inch 5K Retina display with an advanced camera and amazing audio.",
+        price: "From $1599 or $133.25/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: '27"',
+            value: (
+              <>
+                5K Retina display with 600 nits of brightness
+                <br />
+                and support for 1 billion colors
+              </>
+            ),
+            footnote: "3",
+          },
+          {
+            label: "12MP Ultra Wide camera",
+            value: "With Center Stage",
+          },
+          {
+            label: "Six-speaker system",
+            value: "With Spatial Audio",
+          },
+          {
+            label: "Three-mic array",
+            value: "Studio-quality",
+          },
+          {
+            label: "One Thunderbolt 3 port",
+            value: "Plus three USB-C ports",
+          },
+        ],
+      },
+      {
+        id: "pro-display-xdr",
+        image: "/mac/pro-display-xdr.png",
+        imageAlt: "Pro Display XDR",
+        colors: (
+          <>
+            <div className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"></div>
+          </>
+        ),
+        newLabel: false,
+        title: "Pro Display XDR",
+        subtitle: "Extreme Dynamic Range",
+        description: "A 32-inch 6K Retina display with Extreme Dynamic Range.",
+        price: "From $4999 or $416.58/mo. for 12 mo.",
+        priceNote: "2",
+        learnMoreLink: "#",
+        buyLink: "#",
+        specs: [
+          {
+            label: '32"',
+            value: (
+              <>
+                6K Retina display with 1600 nits of peak brightness
+                <br />
+                and Extreme Dynamic Range
+              </>
+            ),
+            footnote: "3",
+          },
+          {
+            label: "1,000,000:1 contrast ratio",
+            value: "For incredible image quality",
+          },
+          {
+            label: "P3 wide color gamut",
+            value: "With 10-bit color depth",
+          },
+          {
+            label: "Reference modes",
+            value: "For professional workflows",
+          },
+          {
+            label: "Nano-texture glass option",
+            value: "For reduced reflectivity",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export default function MacPage() {

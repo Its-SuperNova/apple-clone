@@ -3,7 +3,6 @@
 import EducationBanner from "@/components/page-components/EducationBanner";
 import ProductHero from "@/components/page-components/ProductHero";
 import FeatureCards from "@/components/page-components/FeatureCards";
-import ProductComparison from "@/components/page-components/ProductComparison";
 import BuyingBenefits from "@/components/page-components/BuyingBenefits";
 import {
   CreditCard,
@@ -15,6 +14,7 @@ import {
   Users,
   ShoppingBag,
 } from "lucide-react";
+import Image from "next/image";
 
 // iPhone feature cards data based on the provided images
 const iphoneFeatureCards = [
@@ -137,62 +137,236 @@ const iphoneBuyingBenefits = [
   },
 ];
 
-// Comparison tabs and content
-const iphoneComparisonTabs = [
-  { id: "iphone16", label: "iPhone 16" },
-  { id: "iphone15", label: "iPhone 15" },
-  { id: "iphonese", label: "iPhone SE" },
-];
+// Update the iphoneProducts array to have consistent spec rows with minus symbols in the specified positions
+// For rows with minus symbols, don't include an icon
 
-// This is a simplified version - you would need to add all the product data
-const iphoneComparisonContent = [
+const iphoneProducts = [
   {
-    tabId: "iphone16",
-    products: [
+    id: "iphone-16-pro",
+    image: "/iphone/iphone-16-pro-gold.png",
+    imageAlt: "iPhone 16 Pro",
+    colors: (
+      <>
+        <div className="w-4 h-4 rounded-full bg-[#F9E5C9] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#E3E4DF] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#505355] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-black border border-gray-300"></div>
+      </>
+    ),
+    newLabel: true,
+    title: "iPhone 16 Pro",
+    subtitle: "The ultimate iPhone.",
+    description:
+      "Featuring the A18 Pro chip with 6-core GPU and Camera Control.",
+    price: "From $999 or $41.62/mo. for 24 mo.",
+    priceNote: "2",
+    learnMoreLink: "#",
+    buyLink: "#",
+    specs: [
       {
-        id: "iphone16-pro-max",
-        image:
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HQahJo8zTB2fkqA5jiIPzmwwhMybm5.png",
-        imageAlt: "iPhone 16 Pro Max",
-        colors: (
-          <>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-black"></div>
-          </>
-        ),
-        newLabel: true,
-        title: "iPhone 16 Pro Max",
-        subtitle: "A17 Pro chip",
-        description: "The ultimate iPhone experience with the largest display.",
-        price: "From $1199 or $49.95/mo. for 24 mo.",
-        priceNote: "2",
-        learnMoreLink: "#",
-        buyLink: "#",
-        specs: [
-          {
-            label: '6.9"',
-            value: (
-              <>
-                Super Retina XDR display with ProMotion
-                <br />
-                and Always-On
-              </>
-            ),
-            footnote: "3",
-          },
-          {
-            label: "A17 Pro chip",
-            value: "A17 Pro chip with 6-core GPU",
-          },
-          // Add more specs as needed
-        ],
+        icon: "/iphone/icons/apple-intelligence.png",
+        iconAlt: "Apple Intelligence",
+        value: "Apple Intelligence",
+        footnote: "1",
       },
-      // Add more products as needed
+      {
+        icon: "/iphone/icons/a18-pro.png",
+        iconAlt: "A18 Pro chip",
+        value: "A18 Pro chip with 6-core GPU",
+      },
+      {
+        icon: "/iphone/icons/camera-control.png",
+        iconAlt: "Camera Control",
+        value: "Camera Control",
+      },
+      {
+        icon: "/iphone/icons/pro-camera.png",
+        iconAlt: "Pro camera system",
+        value: (
+          <div className="space-y-3">
+            <div>Pro camera system</div>
+            <div>Our most advanced 48MP Fusion camera</div>
+            <div>5× Telephoto camera</div>
+            <div>48MP Ultra Wide camera</div>
+            <div>Visual Intelligence to learn about your surroundings</div>
+          </div>
+        ),
+      },
+      {
+        icon: "/iphone/icons/battery.png",
+        iconAlt: "Battery",
+        value: "Up to 33 hours video playback",
+        footnote: "2",
+      },
     ],
   },
-  // Add more tab contents as needed
+  {
+    id: "iphone-16",
+    image: "/iphone/iphone-16-blue.png",
+    imageAlt: "iPhone 16",
+    colors: (
+      <>
+        <div className="w-4 h-4 rounded-full bg-[#7C95EA] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#F9E5C9] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#E3E4DF] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-black border border-gray-300"></div>
+      </>
+    ),
+    newLabel: true,
+    title: "iPhone 16",
+    subtitle: "A total powerhouse.",
+    description: "Featuring the A18 chip with 5-core GPU and Camera Control.",
+    price: "From $799 or $33.29/mo. for 24 mo.",
+    priceNote: "2",
+    learnMoreLink: "#",
+    buyLink: "#",
+    specs: [
+      {
+        icon: "/iphone/icons/apple-intelligence.png",
+        iconAlt: "Apple Intelligence",
+        value: "Apple Intelligence",
+        footnote: "1",
+      },
+      {
+        icon: "/iphone/icons/a18.png",
+        iconAlt: "A18 chip",
+        value: "A18 chip with 5-core GPU",
+      },
+      {
+        icon: "/iphone/icons/camera-control.png",
+        iconAlt: "Camera Control",
+        value: "Camera Control",
+      },
+      {
+        icon: "/iphone/icons/dual-camera.png",
+        iconAlt: "Advanced dual-camera system",
+        value: (
+          <div className="space-y-3">
+            <div>Advanced dual-camera system</div>
+            <div>48MP Fusion camera</div>
+            <div>2× Telephoto</div>
+            <div>12MP Ultra Wide camera</div>
+            <div>Visual Intelligence to learn about your surroundings</div>
+          </div>
+        ),
+      },
+      {
+        icon: "/iphone/icons/battery.png",
+        iconAlt: "Battery",
+        value: "Up to 27 hours video playback",
+        footnote: "2",
+      },
+    ],
+  },
+  {
+    id: "iphone-se",
+    image: "/iphone/iphone-se-white.png",
+    imageAlt: "iPhone SE",
+    colors: (
+      <>
+        <div className="w-4 h-4 rounded-full bg-black border border-gray-300"></div>
+      </>
+    ),
+    newLabel: true,
+    title: "iPhone SE",
+    subtitle: "Latest iPhone. Greatest price.",
+    description: "Featuring the A15 Bionic chip with 4-core GPU.",
+    price: "From $599 or $24.95/mo. for 24 mo.",
+    priceNote: "2",
+    learnMoreLink: "#",
+    buyLink: "#",
+    specs: [
+      {
+        icon: "/iphone/icons/apple-intelligence.png",
+        iconAlt: "Apple Intelligence",
+        value: "Apple Intelligence",
+        footnote: "1",
+      },
+      {
+        icon: "/iphone/icons/a16.png",
+        iconAlt: "A15 chip",
+        value: "A15 chip with 4-core GPU",
+      },
+      {
+        // No icon for Camera Control on iPhone SE
+        value: "—",
+      },
+      {
+        icon: "/iphone/icons/single-camera.png",
+        iconAlt: "Single camera system",
+        value: (
+          <div className="space-y-3">
+            <div>2-in-1 camera system</div>
+            <div>48MP Fusion camera</div>
+            <div>2× Telephoto</div>
+            <div>—</div>
+            <div>Visual Intelligence to learn about your surroundings</div>
+          </div>
+        ),
+      },
+      {
+        icon: "/iphone/icons/battery.png",
+        iconAlt: "Battery",
+        value: "Up to 26 hours video playback",
+        footnote: "2",
+      },
+    ],
+  },
+  {
+    id: "iphone-15",
+    image: "/iphone/iphone-15-pink.png",
+    imageAlt: "iPhone 15",
+    colors: (
+      <>
+        <div className="w-4 h-4 rounded-full bg-[#F9E5C9] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#F8D3D8] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-[#E3E4DF] border border-gray-300"></div>
+        <div className="w-4 h-4 rounded-full bg-black border border-gray-300"></div>
+      </>
+    ),
+    newLabel: false,
+    title: "iPhone 15",
+    subtitle: "As amazing as ever.",
+    description: "Featuring the A16 Bionic chip with 5-core GPU.",
+    price: "From $699 or $29.12/mo. for 24 mo.",
+    priceNote: "2",
+    learnMoreLink: "#",
+    buyLink: "#",
+    specs: [
+      {
+        // No icon for Apple Intelligence on iPhone 15
+        value: "—",
+      },
+      {
+        icon: "/iphone/icons/a16.png",
+        iconAlt: "A16 Bionic chip",
+        value: "A16 Bionic chip with 5-core GPU",
+      },
+      {
+        // No icon for Camera Control on iPhone 15
+        value: "—",
+      },
+      {
+        icon: "/iphone/icons/advanced-dual-camera.png",
+        iconAlt: "Dual-camera system",
+        value: (
+          <div className="space-y-3">
+            <div>Dual-camera system</div>
+            <div>48MP Main camera</div>
+            <div>2× Telephoto</div>
+            <div>Ultra Wide camera</div>
+            <div>—</div>
+          </div>
+        ),
+      },
+      {
+        icon: "/iphone/icons/battery.png",
+        iconAlt: "Battery",
+        value: "Up to 26 hours video playback",
+        footnote: "2",
+      },
+    ],
+  },
 ];
 
 export default function IPhonePage() {
@@ -214,11 +388,151 @@ export default function IPhonePage() {
         backgroundColor="bg-[#f5f5f7]"
       />
 
-      <ProductComparison
-        title="Which iPhone is right for you?"
-        tabs={iphoneComparisonTabs}
-        tabContents={iphoneComparisonContent}
-      />
+      <section className="py-20 bg-[#f5f5f7]">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <h2 className="text-[48px] font-semibold text-[#1d1d1f] mb-16">
+            Explore the lineup.
+          </h2>
+
+          <div className="relative">
+            {/* Scrollable container */}
+            <div className="flex overflow-x-auto pb-8 scrollbar-hide scroll-smooth -mx-6">
+              <div className="pl-6 pr-12 flex">
+                {iphoneProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="flex-shrink-0 w-[372px] mr-6 first:ml-0 last:mr-0"
+                  >
+                    <div className="flex flex-col h-full">
+                      {/* Product image - fixed height */}
+                      <div className="relative w-full h-[300px] flex items-center justify-center">
+                        <img
+                          src={product.image || "/placeholder.svg"}
+                          alt={product.imageAlt}
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      </div>
+
+                      {/* Color options - fixed height */}
+                      <div className="h-[40px] flex items-center justify-center">
+                        <div className="flex space-x-2">{product.colors}</div>
+                      </div>
+
+                      {/* New label - fixed height */}
+                      <div className="h-[24px] flex items-center justify-center">
+                        {product.newLabel && (
+                          <span className="text-[#f56300] text-sm font-medium">
+                            New
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Product title - fixed height */}
+                      <div className="h-[36px] flex items-center justify-center">
+                        <h3 className="text-2xl font-semibold">
+                          {product.title}
+                        </h3>
+                      </div>
+
+                      {/* Subtitle - fixed height */}
+                      <div className="h-[24px] flex items-center justify-center">
+                        <p className="text-sm text-gray-600">
+                          {product.subtitle}
+                        </p>
+                      </div>
+
+                      {/* Description - fixed height */}
+                      <div className="h-[48px] flex items-center justify-center text-center px-4">
+                        <p className="text-sm">{product.description}</p>
+                      </div>
+
+                      {/* Price - fixed height */}
+                      <div className="h-[36px] flex items-center justify-center">
+                        <p className="font-medium">
+                          {product.price}
+                          {product.priceNote && <sup>{product.priceNote}</sup>}
+                        </p>
+                      </div>
+
+                      {/* Buttons - fixed height */}
+                      <div className="h-[60px] flex items-center justify-center">
+                        <div className="flex space-x-4">
+                          <a
+                            href={product.learnMoreLink || "#"}
+                            className="bg-[#0066cc] text-white px-5 py-2 rounded-full hover:bg-[#0077ed] transition-colors"
+                          >
+                            Learn more
+                          </a>
+                          <a
+                            href={product.buyLink || "#"}
+                            className="text-[#0066cc] hover:underline flex items-center"
+                          >
+                            Buy <span className="ml-1">›</span>
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="w-full border-t border-gray-300 my-6"></div>
+
+                      {/* Specs - each with fixed height */}
+                      <div className="w-full">
+                        {product.specs.map((spec, specIndex) => (
+                          <div key={specIndex} className="text-center mb-8">
+                            <div className="h-[60px] flex items-center justify-center">
+                              {spec.icon ? (
+                                <div className="flex items-center justify-center w-[40px] h-[40px]">
+                                  <Image
+                                    src={spec.icon || "/placeholder.svg"}
+                                    alt={spec.iconAlt || "Feature icon"}
+                                    width={40}
+                                    height={40}
+                                    className="object-contain"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="w-[40px] h-[40px] flex items-center justify-center">
+                                  {/* Empty div with same dimensions as icons for consistent spacing */}
+                                </div>
+                              )}
+                            </div>
+                            <div className="min-h-[100px] flex items-start justify-center">
+                              <div className="text-xs text-center w-full">
+                                {spec.value}
+                                {spec.footnote && <sup>{spec.footnote}</sup>}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Custom scrollbar hide styles */}
+        <style jsx global>{`
+          /* Hide scrollbar for Chrome, Safari and Opera */
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+
+          /* Hide scrollbar for IE, Edge and Firefox */
+          .scrollbar-hide {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+          }
+
+          /* Smooth scrolling for all browsers */
+          .scroll-smooth {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+          }
+        `}</style>
+      </section>
 
       <BuyingBenefits
         title="Why Apple is the best place to buy iPhone."

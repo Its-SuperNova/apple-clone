@@ -175,7 +175,7 @@ export default function HomePage() {
             className="w-full"
           >
             <Image
-              src="/ipad-pro-side-view.png"
+              src="/ipad-home.jpeg"
               alt="iPad Pro with M4 chip"
               width={1500}
               height={400}
